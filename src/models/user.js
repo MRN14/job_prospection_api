@@ -1,40 +1,40 @@
-/**
- * 
- * User model
- * @param {sequelize} sequelize 
- * @param {User} DataTypes 
- * @returns 
- */
-module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define(
-      'User',
-      {
-        id: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        firstname: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        lastname: {
-            type: DataTypes.STRING,
-            allowNull:false
-        },
+import { DataTypes, Model } from 'sequelize';
+import mySqlConnection from '../database/database.js'; // ton instance sequelize
 
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate:{isEmail:true}
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
-    }
-    );
+class User extends Model {}
 
-    return User;
-}
+User.init(
+  {
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
+    },
+
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    mySqlConnection,           
+    modelName: 'User',   
+    tableName: 'user',  
+    timestamps: true,    
+  }
+);
+
+export default User;

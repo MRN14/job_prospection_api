@@ -1,26 +1,21 @@
-/**
- * Sheet model
- * 
- * @param {sequelize} sequelize 
- * @param {Sheet} DataTypes 
- * @returns 
- */
-module.exports = (sequelize, DataTypes) => {
-    const Sheet = sequelize.define(
-      'Sheet',
-      {
-        id: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
+import { DataTypes, Model } from 'sequelize';
+import mySqlConnection from '../database/database.js'; // ton instance sequelize
+
+class Sheet extends Model { }
+
+Sheet.init(
+    {
         name: {
             type: DataTypes.STRING,
-            allowNull:false,
-            unique: true
+            allowNull: false,
         }
-      }
-    );
+    },
+    {
+        mySqlConnection,
+        modelName: 'Sheet',
+        tableName: 'sheet',
+        timestamps: true,
+    }
+);
 
-    return Sheet;
-}
+export default Sheet;
