@@ -15,10 +15,12 @@ module.exports = (sequelize, DataTypes) => {
           autoIncrement: true,
         },
         firstname: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         },
         lastname: {
             type: DataTypes.STRING,
+            allowNull:false
         },
 
         email: {
