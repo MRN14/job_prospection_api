@@ -30,11 +30,9 @@ module.exports = (sequelize, DataTypes) => {
             },
             source: {
                 type: DataTypes.STRING,
-                allowNull: false,
             },
             contact: {
                 type: DataTypes.STRING,
-                allowNull: false,
             },
             dispatchDate: {
                 type: DataTypes.DATE
