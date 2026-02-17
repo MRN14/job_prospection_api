@@ -1,6 +1,6 @@
 # job_prospection_api
 
-endpoints:
+### endpoints:
 
 POST /login body: { email, password} returns token
 POST /register body: { lastname, firstname, email, password }
@@ -46,7 +46,7 @@ PUT /joboffer/:id (update job offer’s details) body : {column, column, …}
 DELETE  /joboffer/:id (delete a job offer) 
 
 
-Fonctionnalités :
+### Fonctionnalités :
 Authentification
 Création de compte et login. Email de vérification ? (Nodemailer)
 Cryptage des mots de passe : bcrypt
