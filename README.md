@@ -1,7 +1,7 @@
 # job_prospection_api
 
 ### endpoints
-
+  
 POST /login body: { email, password} returns token
 POST /register body: { lastname, firstname, email, password }
 
