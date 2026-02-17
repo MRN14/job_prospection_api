@@ -2,6 +2,16 @@
 
 The job prospection api is a REST API that helps you track your job pr internship prospection.
 
+## Instructions
+
+```bash
+docker compose up --build
+```
+
+```bash
+docker compose down -v
+```
+
 ## endpoints
 
 POST /login body: { email, password} returns token
