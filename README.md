@@ -1,6 +1,8 @@
 # job_prospection_api
 
-### endpoints
+The job prospection api is a REST API that helps you track your job pr internship prospection.
+
+## endpoints
 
 POST /login body: { email, password} returns token
 POST /register body: { lastname, firstname, email, password }
@@ -44,7 +46,7 @@ POST /joboffer (create a new job offer) body : {column, column, …}
 PUT /joboffer/:id (update job offer’s details) body : {column, column, …}
 DELETE  /joboffer/:id (delete a job offer)
 
-### Features
+## Features
 
 Authentification
 Création de compte et login. Email de vérification ? (Nodemailer)
@@ -57,5 +59,25 @@ fixtures
 
 Vérification du token sur CRUD
 
-Base de données MySQL
-ORM Prisma
+NodeJS
+server : express
+database : MySQL
+ORM : Prisma
+security : bcrypt, jwt, env
+
+## Tasks
+
+Initiation:
+[ ] create express server
+[ ] initiate prisma
+[ ] define data models
+
+Marine :
+[ ] CRUD
+[ ] CRUD routes
+[ ] add fake datas
+
+Jérémy:
+[ ] routes login & register
+[ ] auth middleware
+[ ] token verification middleware
