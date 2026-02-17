@@ -1,0 +1,21 @@
+{
+  "name": "job_prospection_api",
+  "version": "1.0.0",
+  "description": "The job prospection api is a REST API that helps you track your job pr internship prospection.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MRN14/job_prospection_api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/MRN14/job_prospection_api/issues"
+  },
+  "homepage": "https://github.com/MRN14/job_prospection_api#readme"
+}
