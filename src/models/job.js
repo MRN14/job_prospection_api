@@ -19,10 +19,10 @@ Job.init(
 
     status: {
       type: DataTypes.ENUM(
-        'Candidature envoyée',
-        'Premier entretien',
-        'Refusée',
-        'Sans réponse'
+        'application sent',
+        'first interview',
+        'refused',
+        'no response'
       ),
     },
 
