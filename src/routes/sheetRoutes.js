@@ -4,7 +4,7 @@ const sheetRouter = express.Router();
 
 // create a new sheet
 sheetRouter.post('/', (req, res) => {
-    res.send('creating a new sheet');
+    res.send('creating a new sheet')
 })
 
 // get sheet's infos

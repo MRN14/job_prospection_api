@@ -1,93 +1,311 @@
-# job_prospection_api
+# Job Prospection API
 
 The job prospection api is a REST API that helps you track your job pr internship prospection.
 
 ## Instructions
 
+### Github
+
+#### Clone git repository
+
+```bash
+git clone https://github.com/MRN14/job_prospection_api.git
+```
+
+#### Update git repository
+
+```bash
+git pull
+```
+
+### Docker
+
+#### Start docker
+
 ```bash
 docker compose up --build
 ```
+
+This will :
+
+- build two containers
+- download all the dependencies
+- start api on port 3000
+- generate fake datas
+
+#### Stop docker
 
 ```bash
 docker compose down -v
 ```
 
-## endpoints
+This will :
 
-POST /login body: { email, password} returns token
-POST /register body: { lastname, firstname, email, password }
+- stop api
+- remove containers and all dependencies downloaded
 
-GET  /sheet/:name (return sheet’s details)
-POST /sheet (create a new sheet) body : {name}
-PUT /sheet/:name (update sheet’s name) body : {name}
-DELETE /sheet/:name (delete sheet)
+## API
 
-return exemple
+**API base url** = <http://localhost:3000>
+
+### Authentification
+
+POST `/login`
+
+POST `/register`
+
+request :
+
+```json
 {
-columns : {
- [ column_name, column_type ],
- [ column_name, column_type ],
- [ column_name, column_type ],
- }
-values : {
-[ value 1, value2, value3 ],
-[ value 1, value2, value3 ],
-[ value 1, value2, value3 ],
+    method: "POST",
+    headers: { 
+        "Content-Type": "application/json",
+    },
+    body: {
+        "email" : <value>,
+        "pasword" : <value>
+    }
 }
-}
+```
 
-GET /joboffer/:sheetName/:id (return row details)
+response :
 
-return
+```json
 {
-STRING “name” : “value”,
-STRING “job” : “value”,
-DATE    “createdAt”: “value”,
-STRING “source”: “value”,
-STRING “contact”: “value”,
-TEXT    “notes”:  “value”,
-STRING “status”: ”value”,
-STRING “place”: ”value”
-INTEGER “notice”: “value”,
-STRING          “companyName”: “value”
+    "token" : <token>
 }
+```
 
-POST /joboffer (create a new job offer) body : {column, column, …}
-PUT /joboffer/:id (update job offer’s details) body : {column, column, …}
-DELETE  /joboffer/:id (delete a job offer)
+error :
+
+```json
+{
+    "error" : [<error>]
+}
+```
+
+GET `/logout`
+
+```json
+{
+    method: "GET",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    }
+}
+```
+
+response :
+
+```json
+{
+    "status" : "disconnected"
+}
+```
+
+error :
+
+```json
+{
+    "error" : [<error>]
+}
+```
+
+### Sheet
+
+GET `/sheet/:name` # get sheet's details
+
+```json
+{
+    method: "GET",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    }
+}
+```
+
+POST `/sheet` # create a new sheet
+
+request :
+
+```json
+{
+    method: "POST",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    },
+    body : {
+        "name" : <value>
+    }
+}
+```
+
+PUT `/sheet/:name` # update sheet  
+
+request :
+
+```json
+{
+    method: "PUT",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    },
+    body : {
+        "name" : <value>
+    }
+}
+```
+
+DELETE `/sheet/:name` # delete sheet
+
+request :
+
+```json
+{
+    method: "DELETE",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    }
+}
+```
+
+### Job
+
+GET `/job/:name/:id` # get job's details
+
+request :
+
+```json
+{
+    method: "GET",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    }
+}
+```
+
+response :
+
+```json
+{
+    "job": <string>,
+    "company": <string>,
+    "place": <string>,
+    "status": <value>,
+    "source": <string>,
+    "contact": <string>,
+    "dispatchDate": <date>,
+    "note": <text>,
+    "opinion": <integer>
+}
+```
+
+POST `/job` # create a new job offer
+
+request :
+
+```json
+{
+    method: "POST",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    }
+    body: {
+        "job": <string>,
+        "company": <string>,
+        "place": <string>,
+        "status": <value>,
+        "source": <string>,
+        "contact": <string>,
+        "dispatchDate": <date>,
+        "note": <text>,
+        "opinion": <integer>
+    }
+}
+```
+
+PUT `/job/:id`
+
+```json
+{
+    method: "PUT",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    }
+    body: {
+        "job": <string>,
+        "company": <string>,
+        "place": <string>,
+        "status": <value>,
+        "source": <string>,
+        "contact": <string>,
+        "dispatchDate": <date>,
+        "note": <text>,
+        "opinion": <integer>
+    }
+}
+```
+
+DELETE  `/job/:id` # delete a job offer
+
+```json
+{
+    method: "DELETE",
+    headers: { 
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+    }
+}
+```
 
 ## Features
 
-Authentification
-Création de compte et login. Email de vérification ? (Nodemailer)
-Cryptage des mots de passe : bcrypt
-tokens : jsonwebtoken
+#### Authentification
 
-CRUD feuille
-CRUD job
-fixtures
+Register, login and logout  
+Email verification ? (nodemailer)  
+password crypt (bcrypt)  
+token handling (jsonwebtoken)  
 
-Vérification du token sur CRUD
+#### CRUD
 
-NodeJS
-server : express
-database : MySQL
-ORM : Prisma
+CRUD sheet  
+CRUD job  
+fake datas  
+
+#### Technos
+
+NodeJS.
+server : express  
+database : MySQL  
+ORM : sequelize  
 security : bcrypt, jwt, env
 
 ## Tasks
 
 Initiation:
-[ ] create express server
-[ ] initiate prisma
-[ ] define data models
+
+- [x] create express server
+- [x] database connection
+- [ ] define data models
 
 Marine :
-[ ] CRUD
-[ ] CRUD routes
-[ ] add fake datas
+
+- [x] routes
+- [ ] CRUD
+- [ ] add fake datas
 
 Jérémy:
-[ ] routes login & register
-[ ] auth middleware
-[ ] token verification middleware
+
+- [ ] routes login & register
+- [ ] auth middleware
+- [ ] token verification middleware
