@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize';
 
 dotenv.config();
 
-let host = process.env.MYSQL_HOST || 'localhost'; // 'database' si Docker
+let host = process.env.MYSQL_HOST || 'localhost'; 
 let username = process.env.MYSQL_USER;
 let password = process.env.MYSQL_PASSWORD;
 let port = process.env.MYSQL_PORT;
@@ -28,7 +28,7 @@ async function connect() {
     }
 }
 
-// Attempt connection but don't block exports
+// Attempt connection 
 connect().catch(err => console.error('Failed to connect:', err));
 
 export default mySqlConnection;
