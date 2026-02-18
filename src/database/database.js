@@ -11,7 +11,7 @@ let database = process.env.MYSQL_DATABASE;
 
 
 // Creation of the Sequelize instance
-const mySqlConnection = new Sequelize(database, username, password, {
+const sequelize = new Sequelize(database, username, password, {
   host: host,
   port: port,
   dialect: 'mysql',
@@ -21,7 +21,7 @@ const mySqlConnection = new Sequelize(database, username, password, {
 // Connect to database
 async function connect() {
     try {
-        await mySqlConnection.authenticate();
+        await sequelize.authenticate();
         console.log('Connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
@@ -31,4 +31,4 @@ async function connect() {
 // Attempt connection 
 connect().catch(err => console.error('Failed to connect:', err));
 
-export default mySqlConnection;
+export default sequelize;

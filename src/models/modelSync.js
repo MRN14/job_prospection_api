@@ -1,4 +1,4 @@
-import mySqlConnection from "../database/database.js";
+import sequelize from "../database/database.js";
 
 import Job from "./job.js";
 import User from "./user.js";
@@ -14,11 +14,11 @@ Job.belongsTo(Sheet, { foreignKey: "sheetId" });
 async function syncModels() {
     try {
         // First authenticate the connection
-        await mySqlConnection.authenticate();
+        await sequelize.authenticate();
         console.log('Connection has been established successfully.');
         
         // Then sync the models
-        await mySqlConnection.sync();
+        await sequelize.sync();
         console.log('Sync successful');
     } catch (error) {
         console.error('Error while synching sequelize :', error);
