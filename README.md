@@ -44,9 +44,30 @@ This will :
 - stop api
 - remove containers and all dependencies downloaded
 
-## API
+## 🛡 Security depedencies
+
+| Package | Purpose | Why It’s Used |
+|----------|----------|----------------|
+| **bcrypt** | Password hashing | Securely stores user credentials |
+| **jsonwebtoken** | JWT creation & verification | Stateless authentication |
+| **cors** | Cross-Origin Resource Sharing | Controls API access policies |
+
+## Server & API
 
 **API base url** = <http://localhost:3000>
+
+| Package | Purpose |
+|----------|----------|
+| **express** | Node.js web framework |
+| **dotenv** | Environment variable management |
+| **nodemon** | Development tool for auto-restarting server |
+
+## 🗄 Database
+
+| Package | Purpose |
+|---------|---------|
+| **mysql2** | MySQL client for Node.js |
+| **sequelize** | ORM for SQL databases (MySQL, PostgreSQL, etc.) |
 
 ### Authentification
 
