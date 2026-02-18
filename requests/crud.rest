@@ -7,3 +7,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 {
     "name":"Job été 2026"
 }
+
+### GET ALL SHEETS
+GET http://localhost:3000/sheet
+method: "GET"
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTQzMzQxMiwiZXhwIjoxNzcxNDM3MDEyfQ.m--a_FHaFg9wHpZC1-XeHjYo8SSZSYRqmxIz74eXxdw

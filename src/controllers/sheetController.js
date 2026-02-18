@@ -21,6 +21,18 @@ export const createSheet = async (req, res) => {
     }
 
     // Creat sheet
-    Sheet.create({ name, userId: user.id });
+    await Sheet.create({ name, userId: user.id });
     res.status(201).json({ message: "sheet created" });
+}
+
+export const getAllSheets = async (req, res) => {
+    // Check for user
+    let user = req.user;
+    if (!user) {
+        return res.status(400).json({ message: "access error" });
+    }
+
+    let sheets = await Sheet.findAll({ where: { userId: user.id } });
+
+    res.status(200).json({ sheets });
 }

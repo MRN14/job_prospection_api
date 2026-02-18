@@ -1,13 +1,13 @@
 import express from 'express';
 import { verifyToken } from '../middlewares/authMiddleware.js';
-import { createSheet } from '../controllers/sheetController.js';
+import { createSheet, getAllSheets } from '../controllers/sheetController.js';
 const sheetRouter = express.Router();
 
 
 // create a new sheet
 sheetRouter.post('', verifyToken, createSheet);
 
-sheetRouter.get('');
+sheetRouter.get('', verifyToken, getAllSheets);
 
 // get sheet's infos
 sheetRouter.get('/:name', (req, res) => {
