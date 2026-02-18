@@ -30,7 +30,7 @@ User.init(
     },
   },
   {
-    mySqlConnection,           
+    sequelize: mySqlConnection,           
     modelName: 'User',   
     tableName: 'user',  
     timestamps: true,    

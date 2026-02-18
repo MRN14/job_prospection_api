@@ -2,8 +2,8 @@
 import express from 'express';
 const app = express();
 
-// Connect to database
-import mySqlConnection from './database/database.js';
+// Import models first - this triggers database sync
+import { User, Job, Sheet } from './models/modelSync.js';
 
 // Temporary route for testing
 app.get('/', (req, res) => {
