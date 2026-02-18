@@ -1,9 +1,12 @@
 // Create express app
 import express from 'express';
+import cors from 'cors';
 const app = express();
 
 // Middleware to parse JSON requests
 app.use(express.json());
+// Middleware to enable CORS
+app.use(cors());
 
 // Import models first - this triggers database sync
 import { User, Job, Sheet } from './models/modelSync.js';
