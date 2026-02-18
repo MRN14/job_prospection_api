@@ -10,13 +10,14 @@ Sheet.belongsTo(User, { foreignKey: "userId" });
 
 Sheet.hasMany(Job, { foreignKey: "sheetId", onDelete: 'CASCADE' });
 Job.belongsTo(Sheet, { foreignKey: "sheetId" });
+
 // Sync Models with database / Create missing tables
 async function syncModels() {
     try {
         // First authenticate the connection
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
-        
+
         // Then sync the models
         await sequelize.sync();
         console.log('Sync successful');
@@ -33,4 +34,4 @@ export {
     Job,
     Sheet,
     sequelize
- };
+};
