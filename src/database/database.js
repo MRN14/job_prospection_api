@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize';
 
 dotenv.config();
 
-let host = process.env.MYSQL_HOST || 'localhost'; 
+let host = process.env.MYSQL_HOST || 'database'; 
 let username = process.env.MYSQL_USER;
 let password = process.env.MYSQL_PASSWORD;
 let port = process.env.MYSQL_PORT;
