@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
-import mySqlConnection from '../config/database.js';
+import sequelize from '../config/database.js';
 
-class Job extends Model {}
+class Job extends Model { }
 
 Job.init(
   {
@@ -47,7 +47,7 @@ Job.init(
     },
   },
   {
-    mySqlConnection,
+    sequelize,
     modelName: 'Job',
     tableName: 'job',
     timestamps: true,

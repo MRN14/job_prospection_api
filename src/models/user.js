@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
-import mySqlConnection from '../database/database.js'; // ton instance sequelize
+import sequelize from '../database/database.js'; // ton instance sequelize
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
   {
@@ -30,10 +30,10 @@ User.init(
     },
   },
   {
-    mySqlConnection,           
-    modelName: 'User',   
-    tableName: 'user',  
-    timestamps: true,    
+    sequelize,
+    modelName: 'User',
+    tableName: 'user',
+    timestamps: true,
   }
 );
 

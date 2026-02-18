@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import mySqlConnection from '../database/database.js'; // ton instance sequelize
+import sequelize from '../database/database.js'; // ton instance sequelize
 
 class Sheet extends Model { }
 
@@ -11,7 +11,7 @@ Sheet.init(
         }
     },
     {
-        mySqlConnection,
+        sequelize,
         modelName: 'Sheet',
         tableName: 'sheet',
         timestamps: true,

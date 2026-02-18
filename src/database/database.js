@@ -24,6 +24,6 @@ async function connect() {
     }
 }
 
-let mySqlConnection = connect()
+connect()
 
-export default mySqlConnection;
+export default sequelize;
