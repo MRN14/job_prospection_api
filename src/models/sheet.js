@@ -11,7 +11,7 @@ Sheet.init(
         }
     },
     {
-        mySqlConnection,
+        sequelize: mySqlConnection,
         modelName: 'Sheet',
         tableName: 'sheet',
         timestamps: true,

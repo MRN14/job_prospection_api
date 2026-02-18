@@ -3,16 +3,20 @@ import { Sequelize } from 'sequelize';
 
 dotenv.config();
 
+let host = process.env.MYSQL_HOST || 'database'; 
 let username = process.env.MYSQL_USER;
 let password = process.env.MYSQL_PASSWORD;
 let port = process.env.MYSQL_PORT;
 let database = process.env.MYSQL_DATABASE;
 
-let uri = `mysql://${username}:${password}@database:${port}/${database}`
 
-// Parameters sequelize
-const sequelize = new Sequelize(uri)
-
+// Creation of the Sequelize instance
+const sequelize = new Sequelize(database, username, password, {
+  host: host,
+  port: port,
+  dialect: 'mysql',
+  logging: console.log, 
+});
 
 // Connect to database
 async function connect() {
@@ -24,6 +28,7 @@ async function connect() {
     }
 }
 
-let mySqlConnection = connect()
+// Attempt connection 
+connect().catch(err => console.error('Failed to connect:', err));
 
-export default mySqlConnection;
+export default sequelize;

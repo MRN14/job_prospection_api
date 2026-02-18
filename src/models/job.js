@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
-import mySqlConnection from '../config/database.js';
+import mySqlConnection from '../database/database.js';
 
-class Job extends Model {}
+class Job extends Model { }
 
 Job.init(
   {
@@ -44,10 +44,20 @@ Job.init(
 
     opinion: {
       type: DataTypes.INTEGER,
+    }, sheetId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'sheet', // nom exact de la table
+        key: 'id'
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     },
+
   },
   {
-    mySqlConnection,
+    sequelize: mySqlConnection,
     modelName: 'Job',
     tableName: 'job',
     timestamps: true,
