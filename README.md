@@ -52,10 +52,6 @@ This will :
 
 POST `/login`
 
-POST `/register`
-
-request :
-
 ```json
 {
     method: "POST",
@@ -72,9 +68,43 @@ request :
 response :
 
 ```json
-{
-    "token" : <token>
+{ 
+  "status" : `Connected successfully!`,
+  "token" : <value>
 }
+```
+
+error :
+
+```json
+{
+    "error" : [<error>]
+}
+```
+
+POST `/register`
+
+request :
+
+```json
+{
+    method: "POST",
+    headers: { 
+        "Content-Type": "application/json",
+    },
+    body: {
+        "fistName" : <value>,
+        "lastName" : <value>,
+        "email" : <value>,
+        "pasword" : <value>
+    }
+}
+```
+
+response :
+
+```json
+{ "status" : `User n°${user.id} created successfully!` }
 ```
 
 error :
@@ -101,7 +131,7 @@ response :
 
 ```json
 {
-    "status" : "disconnected"
+    "status" : "Disconnected successfully !"
 }
 ```
 

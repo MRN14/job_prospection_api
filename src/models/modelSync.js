@@ -31,5 +31,6 @@ syncModels();
 export {
     User,
     Job,
-    Sheet
+    Sheet,
+    sequelize
  };
