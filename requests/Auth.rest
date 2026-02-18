@@ -1,0 +1,26 @@
+### Register a new user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "password": "12345678"
+}
+
+
+### Login with existing user
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "12345678"
+}
+
+
+### Logout
+GET http://localhost:3000/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTQxMzk2NSwiZXhwIjoxNzcxNDE3NTY1fQ.dnBwCCsk9ojeGv1yXv2-UaJfuqqdx6sKmNi4_CI8tyE
+
