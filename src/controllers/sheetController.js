@@ -28,7 +28,7 @@ export const getAllSheets = async (req, res) => {
     let user = req.user;
 
     // Get user's sheets
-    let sheets = await Sheet.findAll({ where: { userId: user.id }, attributes: { exclude: ["userId", "createdAt", "updatedAt"] } });
+    let sheets = await Sheet.findAll({ where: { userId: user.id }, attributes: { exclude: ["userId"] } });
     res.status(200).json({ sheets });
 }
 
@@ -42,7 +42,7 @@ export const getSheet = async (req, res) => {
 
     let sheet = await Sheet.findOne({
         where: { name: name, userId: user.id },
-        attributes: { exclude: ["userId", "createdAt", "updatedAt"] },
+        attributes: { exclude: ["userId"] },
         include: [{ model: Job }]
     });
 
@@ -71,6 +71,13 @@ export const updateSheet = async (req, res) => {
     if (!newName) {
         return res.status(400).json({ "message": "missing new name in body's request" });
     }
+
+    // Verify name availability
+    let availability = await Sheet.findOne({ where: { name: newName, userId: user.id } });
+    if (availability) {
+        res.status(400).json({ "message": "name is not available" });
+    }
+
 
     // Verify if sheet exists
     let sheet = await Sheet.findOne({ where: { name: oldName, userId: user.id } });
