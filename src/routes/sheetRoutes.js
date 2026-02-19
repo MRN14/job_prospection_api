@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyToken } from '../middlewares/authMiddleware.js';
-import { createSheet, getAllSheets } from '../controllers/sheetController.js';
+import { createSheet, getAllSheets, getSheet } from '../controllers/sheetController.js';
 const sheetRouter = express.Router();
 
 
@@ -10,10 +10,7 @@ sheetRouter.post('', verifyToken, createSheet);
 sheetRouter.get('', verifyToken, getAllSheets);
 
 // get sheet's infos
-sheetRouter.get('/:name', (req, res) => {
-    let name = req.params.name;
-    res.send(`getting ${name} sheet`);
-})
+sheetRouter.get('/:name', verifyToken, getSheet);
 
 // update sheet
 sheetRouter.put('/:name', (req, res) => {
