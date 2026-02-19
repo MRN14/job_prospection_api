@@ -1,6 +1,6 @@
 import express from 'express';
 import { verifyToken } from '../middlewares/authMiddleware.js';
-import { createSheet, getAllSheets, getSheet } from '../controllers/sheetController.js';
+import { createSheet, deleteSheet, getAllSheets, getSheet } from '../controllers/sheetController.js';
 const sheetRouter = express.Router();
 
 
@@ -19,9 +19,6 @@ sheetRouter.put('/:name', (req, res) => {
 })
 
 // delete sheet
-sheetRouter.delete('/:name', (req, res) => {
-    let name = req.params.name;
-    res.send(`deleting ${name} sheet`);
-})
+sheetRouter.delete('/:name', deleteSheet)
 
 export default sheetRouter;

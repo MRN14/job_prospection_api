@@ -52,3 +52,18 @@ export const getSheet = async (req, res) => {
 
     res.status(200).json({ sheet });
 }
+
+export const deleteSheet = async (req, res) => {
+    let name = req.params.name;
+    let user = req.user;
+
+    if (!name) {
+        res.status(400).json({ "message": "missing name, wtf should not happen" });
+    }
+
+    await Sheet.destroy({
+        where: { name: name, userId: user.id },
+    });
+
+    res.status(200).json({ "message": "sheet deleted successfully !" });
+}
