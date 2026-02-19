@@ -5,12 +5,12 @@ const sheetRouter = express.Router();
 
 
 // create a new sheet
-sheetRouter.post('', verifyToken, createSheet);
+sheetRouter.post('', createSheet);
 
-sheetRouter.get('', verifyToken, getAllSheets);
+sheetRouter.get('', getAllSheets);
 
 // get sheet's infos
-sheetRouter.get('/:name', verifyToken, getSheet);
+sheetRouter.get('/:name', getSheet);
 
 // update sheet
 sheetRouter.put('/:name', (req, res) => {

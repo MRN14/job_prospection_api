@@ -20,9 +20,10 @@ app.get('/', (req, res) => {
 import authRouter from './routes/authRoutes.js';
 import sheetRouter from './routes/sheetRoutes.js';
 import jobRouter from './routes/jobRoutes.js';
+import { verifyToken } from './middlewares/authMiddleware.js';
 
 app.use('/auth', authRouter);
-app.use('/sheet', sheetRouter);
+app.use('/sheet', verifyToken, sheetRouter);
 app.use('/job', jobRouter);
 
 // Start server on port 3000
