@@ -4,7 +4,7 @@
   "description": "The job prospection api is a REST API that helps you track your job pr internship prospection.",
   "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "nodemon src/app.js",
     "seed": "node src/seed.js"
   },
@@ -26,13 +26,13 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "faker": "^5.5.3",
-    "jest": "^25.0.0",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.17.2",
     "nodemon": "^1.0.2",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
-    "@faker-js/faker": "^10.3.0"
+    "@faker-js/faker": "^10.3.0",
+    "jest": "^25.0.0"
   }
 }
