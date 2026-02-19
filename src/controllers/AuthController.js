@@ -33,7 +33,7 @@ export const login = async (req, res) => {
 
         // If password is incorrect
         if (!check) {
-            return res.status(400).json({ message: 'Unable to verify credentials.' });
+            return res.status(400).json({ message: 'Invalid email or password' });
         }
 
         // Generate JWT token
