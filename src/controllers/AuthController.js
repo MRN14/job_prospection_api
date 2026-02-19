@@ -4,6 +4,7 @@ dotenv.config();
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
 /**
  *  
  * @param {import{'express'} Request} req 
@@ -17,7 +18,7 @@ export const login = async (req, res) => {
 
         // Verification of input data
         if (!email || !password) {
-            return res.status(400).json({ error: 'Missing email or password' })
+            return res.status(400).json({ message: 'Invalid email or password' })
         }
 
         // Get user by email
@@ -25,7 +26,7 @@ export const login = async (req, res) => {
 
         // If user not found
         if (!user) {
-            return res.status(400).json({ error: 'Missing email or password' });
+            return res.status(400).json({ message: 'Unable to verify credentials.' });
         }
 
         // Compare passwords
@@ -33,14 +34,14 @@ export const login = async (req, res) => {
 
         // If password is incorrect
         if (!check) {
-            return res.status(400).json({ error: 'Missing email or password' });
+            return res.status(400).json({ message: 'Invalid email or password' });
         }
 
         // Generate JWT token
         const token = jwt.sign(
             {id: user.id, email: user.email},
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: process.env.EXPIRE_IN }
         );
 
         return res.status(200).json({
@@ -48,10 +49,10 @@ export const login = async (req, res) => {
             token
         })
 
-    } catch (error) {
-        console.error(error);
+    } catch (message) {
+        console.message(message);
         // Renvoie du erreur générique en d'erreur serveur
-        return res.status(500).json({ error: 'An error has occured' })
+        return res.status(500).json({ message: 'Internal server error' })
 
     }
 }
@@ -63,11 +64,11 @@ export const register = async (req, res) => {
 
         // Verification of input data
         if (!email || !password || !firstName || !lastName) {
-            return res.status(400).json({ error: 'Error when user created' })
+            return res.status(400).json({ message: 'Invalid request body' })
         }
         const existingUser = await User.findOne({ where: { email } });
         if(existingUser) {
-            return res.status(400).json({ error: 'Error when user created' });
+            return res.status(400).json({ message: 'Unable to verify credentials.' });
         }
         // Hash password
         const hashPassword = await bcrypt.hash(password, 10);
@@ -77,14 +78,14 @@ export const register = async (req, res) => {
 
         // Check if user was created
         if (!user) {
-            return res.status(400).json({ error: 'Error when user created' });
+            return res.status(400).json({ message: 'Unable to verify credentials.' });
         }
 
-        return res.status(201).json({ status: `User n°${user.id} created successfully!` });
+        return res.status(201).json({ message: `User n°${user.id} created successfully!` });
     } catch (error) {
         console.error(error);
         // Server error
-        return res.status(500).json({ error: 'An error has occured' })
+        return res.status(500).json({ message: 'Internal server error' })
     }
 }
 
@@ -96,15 +97,15 @@ export const logout = async (req, res) => {
     // If no token is provided, return an error
     if (!authHeader) {
         
-        return res.status(400).json({ error: "Error during disconnection " });
+        return res.status(400).json({ message: "Invalid credentials" });
     }
     // return a success status, the client should handle token deletion on their side
-    return res.status(200).json({ status: "Disconnected successfully !" });
+    return res.status(200).json({ message: "Disconnected successfully !" });
         
     } 
     catch (error) {
        console.error(error);
-       return res.status(500).json({ error: 'An error has occured' }) 
+       return res.status(500).json({ message: 'Internal server error' }) 
     }
     
 };
