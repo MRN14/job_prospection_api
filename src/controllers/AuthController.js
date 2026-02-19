@@ -4,6 +4,7 @@ dotenv.config();
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { verifyToken } from '../middlewares/authMiddleware.js';
 /**
  *  
  * @param {import{'express'} Request} req 
@@ -40,7 +41,7 @@ export const login = async (req, res) => {
         const token = jwt.sign(
             {id: user.id, email: user.email},
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: process.env.EXPIRE_IN }
         );
 
         return res.status(200).json({
