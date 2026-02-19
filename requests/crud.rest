@@ -18,6 +18,17 @@ GET http://localhost:3000/sheet/Job%20%C3%A9t%C3%A9%202026
 method: "GET"
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTUwOTgxMSwiZXhwIjoxNzcxNTI3ODExfQ.RwULHmfJ8x-R6fmJND_u6XigDOL71QjuN16uCBMrpJw
 
+### UPDATE SHEET'S NAME
+PUT http://localhost:3000/sheet/Job%20%C3%A9t%C3%A9%202026
+method: "PUT"
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTUwOTgxMSwiZXhwIjoxNzcxNTI3ODExfQ.RwULHmfJ8x-R6fmJND_u6XigDOL71QjuN16uCBMrpJw
+
+{
+    "name":"Job été 2027"
+}
+
+
 ### DELETE SHEET
 DELETE  http://localhost:3000/sheet/Job%20%C3%A9t%C3%A9%202026
 method: "DELETE"

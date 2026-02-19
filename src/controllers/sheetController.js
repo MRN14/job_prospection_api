@@ -1,5 +1,6 @@
 import { where } from "sequelize";
 import { Job, Sheet } from "../models/modelSync.js";
+import sheetRouter from "../routes/sheetRoutes.js";
 
 export const createSheet = async (req, res) => {
     // Check for user
@@ -15,7 +16,7 @@ export const createSheet = async (req, res) => {
     }
 
     // Check if sheet already exists
-    const sheet = await Sheet.findOne({ where: { name } });
+    const sheet = await Sheet.findOne({ where: { name, userId: user.id } });
     if (sheet) {
         return res.status(400).json({ "message": "sheet already exists" });
     }
@@ -28,7 +29,7 @@ export const createSheet = async (req, res) => {
 export const getAllSheets = async (req, res) => {
     let user = req.user;
 
-    // Get all user's sheets
+    // Get user's sheets
     let sheets = await Sheet.findAll({ where: { userId: user.id } });
     res.status(200).json({ sheets });
 }
@@ -47,10 +48,40 @@ export const getSheet = async (req, res) => {
     });
 
     if (!sheet) {
-        res.status(204).json({ "message": "sheet not found" });
+        res.status(400).json({ "message": "sheet not found" });
     }
 
     res.status(200).json({ sheet });
+}
+
+export const updateSheet = async (req, res) => {
+    // Check for user
+    let user = req.user;
+    if (!user) {
+        return res.status(400).json({ "message": "no user found" });
+    }
+
+    let oldName = req.params.name;
+    if (!oldName) {
+        return res.status(400).json({ "message": "missing name in url" });
+    }
+
+    // Check for name
+
+    let newName = req.body.name;
+    if (!newName) {
+        return res.status(400).json({ "message": "missing new name in body's request" });
+    }
+
+    // Verify if sheet exist
+    let sheet = await Sheet.findOne({ where: { name: oldName, userId: user.id } });
+    if (!sheet) {
+        res.status(400).json({ "message": "sheet not found" });
+    }
+
+
+    await Sheet.update({ name: newName }, { where: { name: oldName, userId: user.id } });
+    res.status(200).json({ "message": "sheet updated" });
 }
 
 export const deleteSheet = async (req, res) => {
