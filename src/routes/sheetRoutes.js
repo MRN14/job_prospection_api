@@ -1,5 +1,4 @@
 import express from 'express';
-import { verifyToken } from '../middlewares/authMiddleware.js';
 import { createSheet, deleteSheet, getAllSheets, getSheet, updateSheet } from '../controllers/sheetController.js';
 const sheetRouter = express.Router();
 
