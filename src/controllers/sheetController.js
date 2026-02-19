@@ -1,6 +1,4 @@
-import { where } from "sequelize";
 import { Job, Sheet } from "../models/modelSync.js";
-import sheetRouter from "../routes/sheetRoutes.js";
 
 export const createSheet = async (req, res) => {
     // Check for user
