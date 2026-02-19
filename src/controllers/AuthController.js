@@ -17,7 +17,7 @@ export const login = async (req, res) => {
 
         // Verification of input data
         if (!email || !password) {
-            return res.status(400).json({ message: 'Missing email or password' })
+            return res.status(400).json({ message: 'Invalid email or password' })
         }
 
         // Get user by email
@@ -25,7 +25,7 @@ export const login = async (req, res) => {
 
         // If user not found
         if (!user) {
-            return res.status(400).json({ message: 'User not found' });
+            return res.status(400).json({ message: 'Invalid email or password' });
         }
 
         // Compare passwords
@@ -33,7 +33,7 @@ export const login = async (req, res) => {
 
         // If password is incorrect
         if (!check) {
-            return res.status(400).json({ message: 'Invalid request body' });
+            return res.status(400).json({ message: 'Invalid email or password' });
         }
 
         // Generate JWT token
@@ -67,7 +67,7 @@ export const register = async (req, res) => {
         }
         const existingUser = await User.findOne({ where: { email } });
         if(existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ message: 'Invalid request body' });
         }
         // Hash password
         const hashPassword = await bcrypt.hash(password, 10);
@@ -77,7 +77,7 @@ export const register = async (req, res) => {
 
         // Check if user was created
         if (!user) {
-            return res.status(400).json({ message: 'User not found' });
+            return res.status(400).json({ message: 'Invalid request body' });
         }
 
         return res.status(201).json({ message: `User n°${user.id} created successfully!` });
