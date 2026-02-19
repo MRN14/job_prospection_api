@@ -33,7 +33,7 @@ export const login = async (req, res) => {
 
         // If password is incorrect
         if (!check) {
-            return res.status(400).json({ message: 'Uncorrect password' });
+            return res.status(400).json({ message: 'Invalid request body' });
         }
 
         // Generate JWT token
@@ -96,7 +96,7 @@ export const logout = async (req, res) => {
     // If no token is provided, return an error
     if (!authHeader) {
         
-        return res.status(400).json({ message: "Invalid credentials " });
+        return res.status(400).json({ message: "Invalid credentials" });
     }
     // return a success status, the client should handle token deletion on their side
     return res.status(200).json({ message: "Disconnected successfully !" });
