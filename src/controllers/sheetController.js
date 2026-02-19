@@ -1,5 +1,5 @@
 import { where } from "sequelize";
-import Sheet from "../models/sheet.js";
+import { Job, Sheet } from "../models/modelSync.js";
 
 export const createSheet = async (req, res) => {
     // Check for user
@@ -41,7 +41,10 @@ export const getSheet = async (req, res) => {
         res.status(400).json({ "message": "missing name, wtf should not happen" });
     }
 
-    let sheet = await Sheet.findOne({ where: { name: name, userId: user.id } });
+    let sheet = await Sheet.findOne({
+        where: { name: name, userId: user.id },
+        include: [{ model: Job }]
+    });
 
     if (!sheet) {
         res.status(204).json({ "message": "sheet not found" });
