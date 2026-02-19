@@ -30,7 +30,7 @@ export const getAllSheets = async (req, res) => {
     let user = req.user;
 
     // Get user's sheets
-    let sheets = await Sheet.findAll({ where: { userId: user.id } });
+    let sheets = await Sheet.findAll({ where: { userId: user.id }, attributes: { exclude: ["userId", "createdAt", "updatedAt"] } });
     res.status(200).json({ sheets });
 }
 
@@ -44,6 +44,7 @@ export const getSheet = async (req, res) => {
 
     let sheet = await Sheet.findOne({
         where: { name: name, userId: user.id },
+        attributes: { exclude: ["userId", "createdAt", "updatedAt"] },
         include: [{ model: Job }]
     });
 
@@ -73,7 +74,7 @@ export const updateSheet = async (req, res) => {
         return res.status(400).json({ "message": "missing new name in body's request" });
     }
 
-    // Verify if sheet exist
+    // Verify if sheet exists
     let sheet = await Sheet.findOne({ where: { name: oldName, userId: user.id } });
     if (!sheet) {
         res.status(400).json({ "message": "sheet not found" });
@@ -90,6 +91,12 @@ export const deleteSheet = async (req, res) => {
 
     if (!name) {
         res.status(400).json({ "message": "missing name, wtf should not happen" });
+    }
+
+    // Verify if sheet exist
+    let sheet = await Sheet.findOne({ where: { name, userId: user.id } });
+    if (!sheet) {
+        res.status(400).json({ "message": "sheet not found" });
     }
 
     await Sheet.destroy({
