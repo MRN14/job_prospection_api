@@ -1,0 +1,15 @@
+### CREATE JOB
+POST http://localhost:3000/job/Job%20%C3%A9t%C3%A9%202026
+method: "POST"
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU3Njc3NiwiZXhwIjoxNzcxNTk0Nzc2fQ.6r1RUlJZXB0eEtZ-PxHyf2Am4ZetWCg0rIOfXtfM8fQ
+
+{
+    "job": "full stask",
+    "companyName": "Quel Bon Plan",
+    "status" : "application sent",
+    "opinion" : 2,
+    "source": "https://exemple.com",
+    "dispatchDate" : "2027-11-01",
+    "contact" : "(+33) 06 "
+}

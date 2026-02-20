@@ -1,12 +1,11 @@
 import express from 'express';
+import { createJob } from '../controllers/jobController.js';
+import { verifyJobDatas } from '../middlewares/jobDatasValidation.js';
 const jobRouter = express.Router();
 
 
 // create a new job
-jobRouter.post('/:name', (req, res) => {
-    let name = req.params.name;
-    res.send(`creating a new job on sheet ${name}`)
-})
+jobRouter.post('/:name', verifyJobDatas, createJob)
 
 // get sheet's infos
 jobRouter.get('/:name/:id', (req, res) => {
