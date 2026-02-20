@@ -2,7 +2,7 @@
 POST http://localhost:3000/sheet
 method: "POST"
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU3Njc3NiwiZXhwIjoxNzcxNTk0Nzc2fQ.6r1RUlJZXB0eEtZ-PxHyf2Am4ZetWCg0rIOfXtfM8fQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
 
 {
     "name":"Job été 2026"
@@ -11,18 +11,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 ### GET ALL SHEETS
 GET http://localhost:3000/sheet
 method: "GET"
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU3Njc3NiwiZXhwIjoxNzcxNTk0Nzc2fQ.6r1RUlJZXB0eEtZ-PxHyf2Am4ZetWCg0rIOfXtfM8fQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
 
 ### GET SHEET'S INFOS
 GET http://localhost:3000/sheet/Job%20%C3%A9t%C3%A9%202026
 method: "GET"
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU3Njc3NiwiZXhwIjoxNzcxNTk0Nzc2fQ.6r1RUlJZXB0eEtZ-PxHyf2Am4ZetWCg0rIOfXtfM8fQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
 
 ### UPDATE SHEET'S NAME
 PUT http://localhost:3000/sheet/Job%20%C3%A9t%C3%A9%202026
 method: "PUT"
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU3Njc3NiwiZXhwIjoxNzcxNTk0Nzc2fQ.6r1RUlJZXB0eEtZ-PxHyf2Am4ZetWCg0rIOfXtfM8fQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
 
 {
     "name":"Job été 2027"
@@ -31,4 +31,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 ### DELETE SHEET
 DELETE  http://localhost:3000/sheet/Job%20%C3%A9t%C3%A9%202026
 method: "DELETE"
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU3Njc3NiwiZXhwIjoxNzcxNTk0Nzc2fQ.6r1RUlJZXB0eEtZ-PxHyf2Am4ZetWCg0rIOfXtfM8fQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
