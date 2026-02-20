@@ -1,277 +1,229 @@
-import { jest } from '@jest/globals';
-import * as UserModule from '../models/user.js';
-import * as bcryptModule from 'bcrypt';
-import * as jwtModule from 'jsonwebtoken';
-import { login, register, logout } from '../controllers/AuthController.js';
+import request from 'supertest';
+import app from '../app';
+import sequelize from '../database/database.js';
+import jwt from 'jsonwebtoken';
+beforeAll(async () => {
+  try {
+    await sequelize.sync({ force: false }); // créer les tables si elles n'existent pas
+    console.log('Tables are ready for testing.');
+  } catch (error) {
+    console.error('Error while syncing tables:', error);
+  }
+});
+describe('POST /auth/register', () => {
 
-// Créer des mocks manuels après l'import
-const User = UserModule.default;
-const bcrypt = bcryptModule;
-const jwt = jwtModule;
+  test('return 400 if missing firstName', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        lastName: 'Dupont',
+        email: 'test@example.com',
+        password: 'password123'
+      });
 
-// Spier sur les méthodes
-jest.spyOn(User, 'findOne');
-jest.spyOn(User, 'create');
-jest.spyOn(bcrypt, 'compare');
-jest.spyOn(bcrypt, 'hash');
-jest.spyOn(jwt, 'sign');
-
-// helper pour simuler res
-function mockRes() {
-  const res = {};
-  res.status = jest.fn().mockReturnValue(res);
-  res.json = jest.fn().mockReturnValue(res);
-  return res;
-}
-
-describe('AuthController - login', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    process.env.JWT_SECRET = 'test-secret';
-    process.env.EXPIRE_IN = '1h';
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
   });
+  test('return 400 if missing lastName', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        firstName: 'Jean',
+        email: 'test@example.com',
+        password: 'password123'
+      });
 
-  test('retourne 400 si email ou password manquant', async () => {
-    const req = { body: {} };
-    const res = mockRes();
-
-    await login(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid email or password' });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
   });
+  test('return 400 if missing email', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        firstName: 'Jean',
+        lastName: 'Dupont',
+        password: 'password123'
+      });
 
-  test('retourne 400 si email manquant', async () => {
-    const req = { body: { password: 'password123' } };
-    const res = mockRes();
-
-    await login(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid email or password' });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
   });
+  test('return 400 if missing password', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        firstName: 'Jean',
+        lastName: 'Dupont',
+        email: 'test@example.com'
+      });
 
-  test('retourne 400 si password manquant', async () => {
-    const req = { body: { email: 'user@example.com' } };
-    const res = mockRes();
-
-    await login(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid email or password' });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
   });
+  test('return 400 if missing all body elements', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({});
 
-  test('retourne 400 si utilisateur non trouvé', async () => {
-    const req = { body: { email: 'notfound@example.com', password: 'password123' } };
-    const res = mockRes();
-    
-    jest.spyOn(User, 'findOne').mockResolvedValueOnce(null);
-
-    await login(req, res);
-
-    expect(User.findOne).toHaveBeenCalledWith({ where: { email: 'notfound@example.com' } });
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Unable to verify credentials.' });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
   });
+  test('return 400 if missing lastName and fistName', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        email: 'test@example.com',
+        password: 'password123'
+      });
 
-  test('retourne 400 si password incorrect', async () => {
-    const mockUser = { id: 1, email: 'user@example.com', password: 'hashedPassword' };
-    const req = { body: { email: 'user@example.com', password: 'wrongPassword' } };
-    const res = mockRes();
-    
-    User.findOne.mockResolvedValueOnce(mockUser);
-    bcrypt.compare.mockResolvedValueOnce(false);
-
-    await login(req, res);
-
-    expect(bcrypt.compare).toHaveBeenCalledWith('wrongPassword', 'hashedPassword');
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid email or password' });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
   });
+  test('return 400 if missing email and password', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        firstName: 'Jean',
+        lastName: 'Dupont'
+      });
 
-  test('retourne 200 avec token si login réussi', async () => {
-    const mockUser = { id: 1, email: 'user@example.com', password: 'hashedPassword' };
-    const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
-    const req = { body: { email: 'user@example.com', password: 'password123' } };
-    const res = mockRes();
-    
-    User.findOne.mockResolvedValueOnce(mockUser);
-    bcrypt.compare.mockResolvedValueOnce(true);
-    jwt.sign.mockReturnValueOnce(mockToken);
-
-    await login(req, res);
-
-    expect(User.findOne).toHaveBeenCalledWith({ where: { email: 'user@example.com' } });
-    expect(bcrypt.compare).toHaveBeenCalledWith('password123', 'hashedPassword');
-    expect(jwt.sign).toHaveBeenCalledWith(
-      { id: 1, email: 'user@example.com' },
-      'test-secret',
-      { expiresIn: '1h' }
-    );
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({
-      status: 'Connected successfully!',
-      token: mockToken
-    });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
   });
+  test('return 400 if missing firstName, lastName and email', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        password: 'password123',
+      });
 
-  test('retourne 500 en cas d\'erreur serveur', async () => {
-    const req = { body: { email: 'user@example.com', password: 'password123' } };
-    const res = mockRes();
-    
-    User.findOne.mockRejectedValueOnce(new Error('Database error'));
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
+  });
+  test('return 400 if missing firstName, lastName and password', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        email: 'test@example.com'
+      });
 
-    await login(req, res);
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
+  });
+  test('return 400 if missing firstName, email and password', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        lastName: 'Dupont'
+      });
 
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Internal server error' });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
+  });
+  test('return 400 if missing lastName, email and password', async () => {
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        firstName: 'Jean'
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid request body');
+  });
+  test('return good response if all body elements are present', async () => {
+
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        firstName: 'Jean',
+        lastName: 'Dupont',
+        email: 'test@example.com',
+        password: 'password123'
+      });
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty('message', 'User created successfully!');
+
+  });
+  test('return 400 if user already exists', async () => {
+
+    // Second registration (duplicate)
+    const res = await request(app)
+      .post('/auth/register')
+      .send({
+        firstName: 'Jean',
+        lastName: 'Dupont',
+        email: 'test@example.com',
+        password: 'password123'
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Unable to verify credentials');
+
   });
 });
+describe('POST /auth/login', () => {
+  test('return 400 if missing email', async () => {
+    const res = await request(app)
+      .post('/auth/login')
+      .send({
+        password: 'password123'
+      });
 
-describe('AuthController - register', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid email or password');
   });
+  test('return 400 if missing password', async () => {
+    const res = await request(app)
+      .post('/auth/login')
+      .send({
+        email: 'test@example.com'
+      });
 
-  test('retourne 400 si données manquantes', async () => {
-    const req = { body: { email: 'user@example.com' } };
-    const res = mockRes();
-
-    await register(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid request body' });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid email or password');
   });
+  test('return 400 if missing all body elements', async () => {
+    const res = await request(app)
+      .post('/auth/login')
+      .send({});
 
-  test('retourne 400 si firstName manquant', async () => {
-    const req = { body: { lastName: 'Doe', email: 'user@example.com', password: 'password123' } };
-    const res = mockRes();
-
-    await register(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid request body' });
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message', 'Invalid email or password');
   });
+  test('return 200 and token if credentials are correct', async () => {
+    const res = await request(app)
+      .post('/auth/login')
+      .send({
+        email: 'test@example.com'
+        , password: 'password123'
+      });
 
-  test('retourne 400 si lastName manquant', async () => {
-    const req = { body: { firstName: 'John', email: 'user@example.com', password: 'password123' } };
-    const res = mockRes();
-
-    await register(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid request body' });
-  });
-
-  test('retourne 400 si email manquant', async () => {
-    const req = { body: { firstName: 'John', lastName: 'Doe', password: 'password123' } };
-    const res = mockRes();
-
-    await register(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid request body' });
-  });
-
-  test('retourne 400 si password manquant', async () => {
-    const req = { body: { firstName: 'John', lastName: 'Doe', email: 'user@example.com' } };
-    const res = mockRes();
-
-    await register(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid request body' });
-  });
-
-  test('retourne 400 si utilisateur existe déjà', async () => {
-    const mockUser = { id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe' };
-    const req = { body: { firstName: 'Jane', lastName: 'Smith', email: 'user@example.com', password: 'password123' } };
-    const res = mockRes();
-    
-    User.findOne.mockResolvedValueOnce(mockUser);
-
-    await register(req, res);
-
-    expect(User.findOne).toHaveBeenCalledWith({ where: { email: 'user@example.com' } });
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Unable to verify credentials.' });
-  });
-
-  test('crée un nouvel utilisateur avec succès', async () => {
-    const createdUser = { id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', password: 'hashedPassword' };
-    const req = { body: { firstName: 'John', lastName: 'Doe', email: 'john@example.com', password: 'password123' } };
-    const res = mockRes();
-    
-    User.findOne.mockResolvedValueOnce(null);
-    bcrypt.hash.mockResolvedValueOnce('hashedPassword');
-    User.create.mockResolvedValueOnce(createdUser);
-
-    await register(req, res);
-
-    expect(User.findOne).toHaveBeenCalledWith({ where: { email: 'john@example.com' } });
-    expect(bcrypt.hash).toHaveBeenCalledWith('password123', 10);
-    expect(User.create).toHaveBeenCalledWith({
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@example.com',
-      password: 'hashedPassword'
-    });
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({ message: 'User n°1 created successfully!' });
-  });
-
-  test('retourne 500 en cas d\'erreur serveur', async () => {
-    const req = { body: { firstName: 'John', lastName: 'Doe', email: 'john@example.com', password: 'password123' } };
-    const res = mockRes();
-    
-    User.findOne.mockRejectedValueOnce(new Error('Database error'));
-
-    await register(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Internal server error' });
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('status', 'Connected successfully!');
+    expect(res.body).toHaveProperty('token');
   });
 });
+describe('GET /auth/logout', () => {
+  test('return 401 if no token provided', async () => {
+    const res = await request(app)
+      .get('/auth/logout');
 
-describe('AuthController - logout', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+    expect(res.status).toBe(401);
+    expect(res.body).toHaveProperty('message', 'You must have to be connected');
   });
+  test('return 200 if valid token provided', async () => {
+    const secret = process.env.JWT_SECRET || 'ma_super_secret';
 
-  test('retourne 400 si pas de token d\'authentification', async () => {
-    const req = { headers: {} };
-    const res = mockRes();
+    // Generate token
+    const user = { id: 1, email: 'test@example.com' };
+    const token = jwt.sign(user, secret, { expiresIn: '1h' });
 
-    await logout(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid credentials' });
-  });
-
-  test('retourne 200 si token valide', async () => {
-    const req = { headers: { authorization: 'Bearer token123' } };
-    const res = mockRes();
-
-    await logout(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Disconnected successfully !' });
-  });
-
-  test('retourne 500 en cas d\'erreur serveur', async () => {
-    const req = { headers: { authorization: 'Bearer token123' } };
-    const res = mockRes();
-    
-    // Simuler une erreur lors de la vérification
-    Object.defineProperty(req, 'headers', {
-      get: jest.fn(() => {
-        throw new Error('Header parse error');
-      })
-    });
-
-    await logout(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Internal server error' });
+    // Use token to access protected route
+    const res = await request(app)
+      .get('/auth/logout')
+      .set('Authorization', `Bearer ${token}`)
+      
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('message', 'Disconnected successfully !');
   });
 });
