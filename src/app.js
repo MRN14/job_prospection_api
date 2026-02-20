@@ -24,7 +24,7 @@ import { verifyToken } from './middlewares/authMiddleware.js';
 
 app.use('/auth', authRouter);
 app.use('/sheet', verifyToken, sheetRouter);
-app.use('/job', jobRouter);
+app.use('/job', verifyToken, jobRouter);
 
 // Start server on port 3000
 const port = 3000;
