@@ -1,6 +1,5 @@
 import express from 'express';
-import { verifyToken } from '../middlewares/authMiddleware.js';
-import { createSheet, getAllSheets, getSheet } from '../controllers/sheetController.js';
+import { createSheet, deleteSheet, getAllSheets, getSheet, updateSheet } from '../controllers/sheetController.js';
 const sheetRouter = express.Router();
 
 
@@ -13,15 +12,9 @@ sheetRouter.get('', getAllSheets);
 sheetRouter.get('/:name', getSheet);
 
 // update sheet
-sheetRouter.put('/:name', (req, res) => {
-    let name = req.params.name;
-    res.send(`updating ${name} sheet`);
-})
+sheetRouter.put('/:name', updateSheet)
 
 // delete sheet
-sheetRouter.delete('/:name', (req, res) => {
-    let name = req.params.name;
-    res.send(`deleting ${name} sheet`);
-})
+sheetRouter.delete('/:name', deleteSheet)
 
 export default sheetRouter;
