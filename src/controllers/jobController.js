@@ -24,7 +24,7 @@ export const createJob = async (req, res) => {
     let { companyName, place, status, source, contact, dispatchDate, note, opinion } = req.body;
     await Job.create({ sheetId: sheet.id, job, companyName, place, status, source, contact, dispatchDate, note, opinion });
 
-    return res.status(200).json({ "message": "job succesfully created" })
+    return res.status(200).json({ "message": "job succesfully created" });
 }
 
 export const getJob = async (req, res) => {
@@ -54,8 +54,6 @@ export const getJob = async (req, res) => {
     }
 
     res.status(200).json(job);
-
-
 }
 
 export const updateJob = async (req, res) => {
@@ -83,4 +81,35 @@ export const updateJob = async (req, res) => {
 
     return res.status(200).json({ "message": "job succesfully created" })
 
+}
+
+export const deleteJob = async (req, res) => {
+    // Check for user
+    let user = req.user;
+    if (!user) {
+        return res.status(400).json({ "message": "no user found" });
+    }
+
+    // Check for sheet
+    let name = req.params.name;
+    const sheet = await Sheet.findOne({ where: { name, userId: user.id } });
+    if (!sheet) {
+        return res.status(400).json({ "message": "No sheet found" });
+    }
+
+    // Check for id
+    let id = req.params.id;
+    if (!id) {
+        return res.status(400).json({ "message": "No id specified" });
+    }
+
+    let job = await Job.findOne({ where: { sheetId: sheet.id, id }, attributes: { exclude: ["createdAt", "updatedAt"] } });
+
+    if (!job) {
+        return res.status(400).json({ "message": "No job find" });
+    }
+
+    await Job.destroy({ where: { id } });
+
+    res.status(200).json({ "message": "job succesfully deleted" });
 }

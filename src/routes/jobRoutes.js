@@ -1,5 +1,5 @@
 import express from 'express';
-import { createJob, getJob, updateJob } from '../controllers/jobController.js';
+import { createJob, deleteJob, getJob, updateJob } from '../controllers/jobController.js';
 import { verifyJobDatas } from '../middlewares/jobDatasValidation.js';
 const jobRouter = express.Router();
 
@@ -14,10 +14,6 @@ jobRouter.get('/:name/:id', getJob);
 jobRouter.put('/:name/:id', updateJob);
 
 // delete sheet
-jobRouter.delete('/:name/:id', (req, res) => {
-    let name = req.params.name;
-    let id = req.params.id;
-    res.send(`deleting ${id}'s job on ${name} sheet`)
-})
+jobRouter.delete('/:name/:id', deleteJob)
 
 export default jobRouter;

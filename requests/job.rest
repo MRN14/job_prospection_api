@@ -34,3 +34,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
     "dispatchDate" : "2027-11-01",
     "contact" : "+33 06 21 65 36 23"
 }
+
+### DELETE JOB
+DELETE http://localhost:3000/job/Job%20%C3%A9t%C3%A9%202026/19
+method: "DELETE"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
