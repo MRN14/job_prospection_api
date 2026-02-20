@@ -15,12 +15,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 }
 
 ### GET JOB
-GET http://localhost:3000/job/Job%20%C3%A9t%C3%A9%202026/19
+GET http://localhost:3000/job/Job%20%C3%A9t%C3%A9%202026/1
 method: "GET"
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
 
 ### UPADATE JOB
-PUT http://localhost:3000/job/Job%20%C3%A9t%C3%A9%202026/19
+PUT http://localhost:3000/job/Job%20%C3%A9t%C3%A9%202026/1
 method: "PUT"
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
@@ -36,6 +36,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 }
 
 ### DELETE JOB
-DELETE http://localhost:3000/job/Job%20%C3%A9t%C3%A9%202026/19
+DELETE http://localhost:3000/job/Job%20%C3%A9t%C3%A9%202026/1
 method: "DELETE"
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MTU5MjY2MCwiZXhwIjoxNzcxNjEwNjYwfQ.zj4HGHTdHeuqC5nKY4Qi8v5n4eXE6b2XdBLE10OaaB0
