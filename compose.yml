@@ -32,29 +32,9 @@ services:
       timeout: 5s
       retries: 3
 
-  dbtest:
-    image: mysql:latest
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: test_db
-      MYSQL_USER: testuser
-      MYSQL_PASSWORD: testpassword
-    ports:
-      - "3307:3306"
-    volumes:
-      - dbtest_data:/var/lib/mysql
-    networks:
-      - job_prospection_api
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
 
 volumes:
   db_data:
-  dbtest_data:
 
 networks:
   job_prospection_api:
