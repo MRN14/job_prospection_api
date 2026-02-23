@@ -4,7 +4,7 @@ import sequelize from '../database/database.js';
 import jwt from 'jsonwebtoken';
 beforeAll(async () => {
   try {
-    await sequelize.sync({ force: false }); // créer les tables si elles n'existent pas
+    await sequelize.sync({ force: true }); // créer les tables si elles n'existent pas
     console.log('Tables are ready for testing.');
   } catch (error) {
     console.error('Error while syncing tables:', error);
@@ -226,4 +226,12 @@ describe('GET /auth/logout', () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('message', 'Disconnected successfully !');
   });
+});
+afterAll(async () => {
+  try {
+    await sequelize.sync({ force: true }); // créer les tables si elles n'existent pas
+    console.log('Tables are ready for testing.');
+  } catch (error) {
+    console.error('Error while syncing tables:', error);
+  }
 });
