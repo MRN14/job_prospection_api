@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+import validator from 'validator';
 
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
@@ -39,7 +40,7 @@ export const login = async (req, res) => {
 
         // Generate JWT token
         const token = jwt.sign(
-            {id: user.id, email: user.email},
+            { id: user.id, email: user.email },
             process.env.JWT_SECRET,
             { expiresIn: process.env.EXPIRE_IN }
         );
@@ -60,21 +61,31 @@ export const login = async (req, res) => {
 export const register = async (req, res) => {
 
     try {
-        const {lastName, firstName, email, password } = req.body;
+        const { lastName, firstName, email, password } = req.body;
 
         // Verification of input data
         if (!email || !password || !firstName || !lastName) {
             return res.status(400).json({ message: 'Invalid request body' })
         }
+        const isStrong = validator.isStrongPassword(password, {
+            minLength: 8,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1
+        });
+        if (!isStrong) {
+            return res.status(400).json({ message: 'Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number and one symbol' })
+        }
         const existingUser = await User.findOne({ where: { email } });
-        if(existingUser) {
+        if (existingUser) {
             return res.status(400).json({ message: 'Unable to verify credentials.' });
         }
         // Hash password
         const hashPassword = await bcrypt.hash(password, 10);
 
         // Create user
-        const user = await User.create({lastName, firstName, email, password: hashPassword });
+        const user = await User.create({ lastName, firstName, email, password: hashPassword });
 
         // Check if user was created
         if (!user) {
@@ -93,19 +104,19 @@ export const logout = async (req, res) => {
     // Verify if the user is authenticated by checking the Authorization header
     try {
 
-    const authHeader = req.headers.authorization;
-    // If no token is provided, return an error
-    if (!authHeader) {
-        
-        return res.status(400).json({ message: "Invalid credentials" });
+        const authHeader = req.headers.authorization;
+        // If no token is provided, return an error
+        if (!authHeader) {
+
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
+        // return a success status, the client should handle token deletion on their side
+        return res.status(200).json({ message: "Disconnected successfully !" });
+
     }
-    // return a success status, the client should handle token deletion on their side
-    return res.status(200).json({ message: "Disconnected successfully !" });
-        
-    } 
     catch (error) {
-       console.error(error);
-       return res.status(500).json({ message: 'Internal server error' }) 
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' })
     }
-    
+
 };
