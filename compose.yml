@@ -6,6 +6,7 @@ services:
     volumes:
       - .:/var/www
       - /var/www/node_modules
+    command: sh -c "npm install && sleep 10 && npm run dev"
     depends_on:
       - database
     networks:
@@ -31,6 +32,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    
 
 volumes:
   db_data:
