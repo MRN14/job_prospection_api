@@ -21,7 +21,7 @@ export const createSheet = async (req, res) => {
 
     // Creat sheet
     await Sheet.create({ name, userId: user.id });
-    res.status(201).json({ "message": "sheet created" });
+    return res.status(201).json({ "message": "sheet created" });
 }
 
 export const getAllSheets = async (req, res) => {
@@ -29,7 +29,7 @@ export const getAllSheets = async (req, res) => {
 
     // Get user's sheets
     let sheets = await Sheet.findAll({ where: { userId: user.id }, attributes: { exclude: ["userId"] } });
-    res.status(200).json({ sheets });
+    return res.status(200).json({ sheets });
 }
 
 export const getSheet = async (req, res) => {
@@ -37,7 +37,7 @@ export const getSheet = async (req, res) => {
     let user = req.user;
 
     if (!name) {
-        res.status(400).json({ "message": "missing name, wtf should not happen" });
+        return res.status(400).json({ "message": "missing name, wtf should not happen" });
     }
 
     let sheet = await Sheet.findOne({
@@ -47,7 +47,7 @@ export const getSheet = async (req, res) => {
     });
 
     if (!sheet) {
-        res.status(400).json({ "message": "sheet not found" });
+        return res.status(400).json({ "message": "sheet not found" });
     }
 
     res.status(200).json({ sheet });
@@ -75,19 +75,19 @@ export const updateSheet = async (req, res) => {
     // Verify name availability
     let availability = await Sheet.findOne({ where: { name: newName, userId: user.id } });
     if (availability) {
-        res.status(400).json({ "message": "name is not available" });
+        return res.status(400).json({ "message": "name is not available" });
     }
 
 
     // Verify if sheet exists
     let sheet = await Sheet.findOne({ where: { name: oldName, userId: user.id } });
     if (!sheet) {
-        res.status(400).json({ "message": "sheet not found" });
+        return res.status(400).json({ "message": "sheet not found" });
     }
 
 
     await Sheet.update({ name: newName }, { where: { name: oldName, userId: user.id } });
-    res.status(200).json({ "message": "sheet updated" });
+    return res.status(200).json({ "message": "sheet updated" });
 }
 
 export const deleteSheet = async (req, res) => {
@@ -95,18 +95,18 @@ export const deleteSheet = async (req, res) => {
     let user = req.user;
 
     if (!name) {
-        res.status(400).json({ "message": "missing name, wtf should not happen" });
+        return res.status(400).json({ "message": "missing name, wtf should not happen" });
     }
 
     // Verify if sheet exist
     let sheet = await Sheet.findOne({ where: { name, userId: user.id } });
     if (!sheet) {
-        res.status(400).json({ "message": "sheet not found" });
+        return res.status(400).json({ "message": "sheet not found" });
     }
 
     await Sheet.destroy({
         where: { name: name, userId: user.id },
     });
 
-    res.status(200).json({ "message": "sheet deleted successfully !" });
+    return res.status(200).json({ "message": "sheet deleted successfully !" });
 }
