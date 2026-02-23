@@ -1,32 +1,19 @@
 import express from 'express';
+import { createJob, deleteJob, getJob, updateJob } from '../controllers/jobController.js';
+import { verifyJobDatas } from '../middlewares/jobDatasValidation.js';
 const jobRouter = express.Router();
 
 
 // create a new job
-jobRouter.post('/:name', (req, res) => {
-    let name = req.params.name;
-    res.send(`creating a new job on sheet ${name}`)
-})
+jobRouter.post('/:name', verifyJobDatas, createJob)
 
 // get sheet's infos
-jobRouter.get('/:name/:id', (req, res) => {
-    let name = req.params.name;
-    let id = req.params.id;
-    res.send(`getting ${id}'s job on ${name} sheet`)
-})
+jobRouter.get('/:name/:id', getJob);
 
 // update sheet
-jobRouter.put('/:name/:id', (req, res) => {
-    let name = req.params.name;
-    let id = req.params.id;
-    res.send(`updating ${id}'s job on ${name} sheet`)
-})
+jobRouter.put('/:name/:id', updateJob);
 
 // delete sheet
-jobRouter.delete('/:name/:id', (req, res) => {
-    let name = req.params.name;
-    let id = req.params.id;
-    res.send(`deleting ${id}'s job on ${name} sheet`)
-})
+jobRouter.delete('/:name/:id', deleteJob)
 
 export default jobRouter;

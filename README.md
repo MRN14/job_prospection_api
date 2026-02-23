@@ -296,12 +296,15 @@ DELETE  `/job/:id` # delete a job offer
     }
 }
 ```
+
 ## Middlewares
 
 ### AuthMiddleware
+
 AuthMiddleware allows, during user login, verification that they are properly logged in via the verifyToken function.
 
 We use them like this:
+
 ```bash
 app.use('/route',Router, AuthMiddleware)
 ```

@@ -6,8 +6,10 @@ services:
     volumes:
       - .:/var/www
       - /var/www/node_modules
+    command: sh -c "npm install && sleep 10 && npm run dev"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     networks:
       - job_prospection_api
     env_file:
