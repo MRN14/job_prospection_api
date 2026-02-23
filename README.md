@@ -44,6 +44,43 @@ This will :
 - stop api
 - remove containers and all dependencies downloaded
 
+#### Troubleshouting
+
+If you get this error :
+
+```bash
+Unable to connect to the database: ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 172.18.0.2:3306
+    at ConnectionManager.connect (/var/www/node_modules/sequelize/lib/dialects/mysql/connection-manager.js:92:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async ConnectionManager._connect (/var/www/node_modules/sequelize/lib/dialects/abstract/connection-manager.js:222:24)
+    at async /var/www/node_modules/sequelize/lib/dialects/abstract/connection-manager.js:174:32 {
+  parent: Error: connect ECONNREFUSED 172.18.0.2:3306
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1595:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '172.18.0.2',
+    port: 3306,
+    fatal: true
+  },
+  original: Error: connect ECONNREFUSED 172.18.0.2:3306
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1595:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '172.18.0.2',
+    port: 3306,
+    fatal: true
+  }
+}
+```
+
+restart  job_prospection_api-web-1 container with :
+
+```bash
+ docker restart job_prospection_api-web-1
+ ```
+
 ## API
 
 **API base url** = <http://localhost:3000>
@@ -296,12 +333,15 @@ DELETE  `/job/:id` # delete a job offer
     }
 }
 ```
+
 ## Middlewares
 
 ### AuthMiddleware
+
 AuthMiddleware allows, during user login, verification that they are properly logged in via the verifyToken function.
 
 We use them like this:
+
 ```bash
 app.use('/route',Router, AuthMiddleware)
 ```
