@@ -67,16 +67,17 @@ export const register = async (req, res) => {
         if (!email || !password || !firstName || !lastName) {
             return res.status(400).json({ message: 'Invalid request body' })
         }
-        const isStrong = validator.isStrongPassword(password, {
-            minLength: 8,
-            minLowercase: 1,
-            minUppercase: 1,
-            minNumbers: 1,
-            minSymbols: 1
-        });
-        if (!isStrong) {
-            return res.status(400).json({ message: 'Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number and one symbol' })
-        }
+        // // Check password strength
+        // const isStrong = validator.isStrongPassword(password, {
+        //     minLength: 8,
+        //     minLowercase: 1,
+        //     minUppercase: 1,
+        //     minNumbers: 1,
+        //     minSymbols: 1
+        // });
+        // if (!isStrong) {
+        //     return res.status(400).json({ message: 'Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number and one symbol' })
+        // }
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: 'Unable to verify credentials.' });
