@@ -11,7 +11,7 @@ export const verifyToken = (req, res, next) => {
     }
     // If no token is provided, return an error
     if (!token) {
-        return res.status(401).json({ error: 'You must have to be connected' });
+        return res.status(401).json({ message: 'You must have to be connected' });
     }
     // Verify token
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {

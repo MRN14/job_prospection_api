@@ -26,8 +26,10 @@ app.use('/auth', authRouter);
 app.use('/sheet', verifyToken, sheetRouter);
 app.use('/job', verifyToken, jobRouter);
 
-// Start server on port 3000
-const port = 3000;
+// Start server on port 3000 unless running tests
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+export default app;
