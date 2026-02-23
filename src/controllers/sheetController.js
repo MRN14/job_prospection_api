@@ -25,7 +25,7 @@ export const createSheet = async (req, res) => {
         return res.status(201).json({ "message": "sheet created" });
 
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }
 
@@ -41,7 +41,7 @@ export const getAllSheets = async (req, res) => {
         let sheets = await Sheet.findAll({ where: { userId: user.id }, attributes: { exclude: ["userId"] } });
         return res.status(200).json({ sheets });
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }
 
@@ -71,7 +71,7 @@ export const getSheet = async (req, res) => {
         res.status(200).json({ sheet });
 
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }
 
@@ -112,7 +112,7 @@ export const updateSheet = async (req, res) => {
         return res.status(200).json({ "message": "sheet updated" });
 
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }
 
@@ -141,6 +141,6 @@ export const deleteSheet = async (req, res) => {
         return res.status(200).json({ "message": "sheet deleted successfully !" });
 
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }

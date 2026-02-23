@@ -27,7 +27,7 @@ export const createJob = async (req, res) => {
         return res.status(200).json({ "message": "job succesfully created" });
 
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }
 
@@ -62,7 +62,7 @@ export const getJob = async (req, res) => {
         res.status(200).json(job);
 
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }
 
@@ -93,7 +93,7 @@ export const updateJob = async (req, res) => {
         return res.status(200).json({ "message": "job succesfully updated" });
 
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }
 
@@ -129,6 +129,6 @@ export const deleteJob = async (req, res) => {
         res.status(200).json({ "message": "job succesfully deleted" });
 
     } catch (error) {
-        res.status(500).json({ "error": error });
+        res.status(500).json({ "message": "an error as occured" });
     }
 }
