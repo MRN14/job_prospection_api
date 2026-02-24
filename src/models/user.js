@@ -12,7 +12,7 @@ User.init(
 
     lastName: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
 
     email: {
