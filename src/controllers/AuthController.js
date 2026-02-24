@@ -27,7 +27,7 @@ export const login = async (req, res) => {
 
         // If user not found
         if (!user) {
-            return res.status(400).json({ message: 'Unable to verify credentials.' });
+            return res.status(400).json({ message: 'User not found' });
         }
 
         // Compare passwords
@@ -80,7 +80,7 @@ export const register = async (req, res) => {
         // }
         const existingUser = await User.findOne({ where: { email } });
         if(existingUser) {
-            return res.status(400).json({ message: 'Unable to verify credentials' });
+            return res.status(400).json({ message: 'User already exist' });
         }
         // Hash password
         const hashPassword = await bcrypt.hash(password, 10);
@@ -90,7 +90,7 @@ export const register = async (req, res) => {
 
         // Check if user was created
         if (!user) {
-            return res.status(400).json({ message: 'Unable to verify credentials' });
+            return res.status(400).json({ message: 'User not found' });
         }
 
         return res.status(201).json({ message: `User created successfully!` });

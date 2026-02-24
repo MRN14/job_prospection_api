@@ -157,7 +157,7 @@ describe('POST /auth/register', () => {
       });
 
     expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty('message', 'Unable to verify credentials');
+    expect(res.body).toHaveProperty('message', 'User already exist');
 
   });
 });
