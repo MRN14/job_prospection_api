@@ -13,20 +13,25 @@ Job.belongsTo(Sheet, { foreignKey: "sheetId" });
 
 // Sync Models with database / Create missing tables
 async function syncModels() {
-    try {
-        // First authenticate the connection
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
+    if (process.env.NODE_ENV != 'test') {
+        try {
+            // First authenticate the connection
+            await sequelize.authenticate();
+            console.log('Connection has been established successfully.');
 
-        // Then sync the models. In tests we force sync to ensure a clean DB.
-        const syncOptions = process.env.NODE_ENV === 'test' ? { force: true } : {};
-        await sequelize.sync(syncOptions);
-        console.log('Sync successful');
-    } catch (error) {
-        console.error('Error while synching sequelize :', error);
+            // Then sync the models. In tests we force sync to ensure a clean DB.
+            const syncOptions = process.env.NODE_ENV === 'test' ? { force: true } : {};
+            await sequelize.sync(syncOptions);
+            console.log('Sync successful');
+        } catch (error) {
+            console.error('Error while synching sequelize :', error);
+        }
     }
-}
+    else{
+        console.log('Test environment detected, skipping model synchronization.');
+    }
 
+}
 syncModels();
 
 //list models in {}

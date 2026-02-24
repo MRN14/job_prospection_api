@@ -212,7 +212,7 @@ describe('GET /auth/logout', () => {
     expect(res.body).toHaveProperty('message', 'You must have to be connected');
   });
   test('return 200 if valid token provided', async () => {
-    const secret = process.env.JWT_SECRET || 'ma_super_secret';
+    const secret = process.env.JWT_SECRET;
 
     // Generate token
     const user = { id: 1, email: 'test@example.com' };
