@@ -3,26 +3,26 @@ import { Job, Sheet } from "../models/modelSync.js"
 export const createJob = async (req, res) => {
     try {
         // Check for user
-        let user = req.user;
+        const user = req.user;
         if (!user) {
             return res.status(400).json({ "message": "no user found" });
         }
 
         //Check for job
-        let job = req.body.job;
+        const job = req.body.job;
         if (!job) {
             return res.status(400).json({ "message": "missing job name" });
         }
 
         // Get sheet
-        let name = req.params.name;
+        const name = req.params.name;
         const sheet = await Sheet.findOne({ where: { name, userId: user.id } });
         if (!sheet) {
             return res.status(400).json({ "message": "No sheet found" });
         }
 
         // Create job
-        let { companyName, place, status, source, contact, dispatchDate, note, opinion } = req.body;
+        const { companyName, place, status, source, contact, dispatchDate, note, opinion } = req.body;
         await Job.create({ sheetId: sheet.id, job, companyName, place, status, source, contact, dispatchDate, note, opinion });
         return res.status(200).json({ "message": "job succesfully created" });
 
@@ -34,26 +34,26 @@ export const createJob = async (req, res) => {
 export const getJob = async (req, res) => {
     try {
         // Check for user
-        let user = req.user;
+        const user = req.user;
         if (!user) {
             return res.status(400).json({ "message": "no user found" });
         }
 
         // Check for sheet
-        let name = req.params.name;
+        const name = req.params.name;
         const sheet = await Sheet.findOne({ where: { name, userId: user.id } });
         if (!sheet) {
             return res.status(400).json({ "message": "No sheet found" });
         }
 
         // Check for id
-        let id = req.params.id;
+        const id = req.params.id;
         if (!id) {
             return res.status(400).json({ "message": "No id specified" });
         }
 
         // Check for job
-        let job = await Job.findOne({ where: { sheetId: sheet.id, id }, attributes: { exclude: ["createdAt", "updatedAt"] } });
+        const job = await Job.findOne({ where: { sheetId: sheet.id, id }, attributes: { exclude: ["createdAt", "updatedAt"] } });
         if (!job) {
             return res.status(400).json({ "message": "No job find" });
         }
@@ -69,26 +69,26 @@ export const getJob = async (req, res) => {
 export const updateJob = async (req, res) => {
     try {
         // Check for user
-        let user = req.user;
+        const user = req.user;
         if (!user) {
             return res.status(400).json({ "message": "no user found" });
         }
 
         //Check for job
-        let job = req.body.job;
+        const job = req.body.job;
         if (!job) {
             return res.status(400).json({ "message": "missing job name" });
         }
 
         // Get sheet
-        let name = req.params.name;
+        const name = req.params.name;
         const sheet = await Sheet.findOne({ where: { name, userId: user.id } });
         if (!sheet) {
             return res.status(400).json({ "message": "No sheet found" });
         }
 
         // Create job
-        let { companyName, place, status, source, contact, dispatchDate, note, opinion } = req.body;
+        const { companyName, place, status, source, contact, dispatchDate, note, opinion } = req.body;
         await Job.update({ job, companyName, place, status, source, contact, dispatchDate, note, opinion }, { where: { sheetId: sheet.id } });
         return res.status(200).json({ "message": "job succesfully updated" });
 
@@ -100,26 +100,26 @@ export const updateJob = async (req, res) => {
 export const deleteJob = async (req, res) => {
     try {
         // Check for user
-        let user = req.user;
+        const user = req.user;
         if (!user) {
             return res.status(400).json({ "message": "no user found" });
         }
 
         // Check for sheet
-        let name = req.params.name;
+        const name = req.params.name;
         const sheet = await Sheet.findOne({ where: { name, userId: user.id } });
         if (!sheet) {
             return res.status(400).json({ "message": "No sheet found" });
         }
 
         // Check for id
-        let id = req.params.id;
+        const id = req.params.id;
         if (!id) {
             return res.status(400).json({ "message": "No id specified" });
         }
 
         // Check for job
-        let job = await Job.findOne({ where: { sheetId: sheet.id, id }, attributes: { exclude: ["createdAt", "updatedAt"] } });
+        const job = await Job.findOne({ where: { sheetId: sheet.id, id }, attributes: { exclude: ["createdAt", "updatedAt"] } });
         if (!job) {
             return res.status(400).json({ "message": "No job find" });
         }
