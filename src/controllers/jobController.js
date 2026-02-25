@@ -23,6 +23,7 @@ export const createJob = async (req, res) => {
 
         // Create job
         let { companyName, place, status, source, contact, dispatchDate, note, opinion } = req.body;
+        status = status.trim();
         await Job.create({ sheetId: sheet.id, job, companyName, place, status, source, contact, dispatchDate, note, opinion });
         return res.status(200).json({ "message": "job succesfully created" });
 
