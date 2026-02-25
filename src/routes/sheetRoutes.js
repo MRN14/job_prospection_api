@@ -4,9 +4,9 @@ const sheetRouter = express.Router();
 
 
 // create a new sheet
-sheetRouter.post('', createSheet);
+sheetRouter.post('/', createSheet);
 
-sheetRouter.get('', getAllSheets);
+sheetRouter.get('/', getAllSheets);
 
 // get sheet's infos
 sheetRouter.get('/:name', getSheet);
