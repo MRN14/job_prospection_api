@@ -7,6 +7,7 @@ Job.init(
   {
     job: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
 
     companyName: {
@@ -46,7 +47,6 @@ Job.init(
       type: DataTypes.INTEGER,
     }, sheetId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
         model: 'sheet', // nom exact de la table
         key: 'id'
@@ -54,7 +54,6 @@ Job.init(
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     },
-
   },
   {
     sequelize: mySqlConnection,

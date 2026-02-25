@@ -5,10 +5,10 @@ class Sheet extends Model { }
 
 Sheet.init(
     {
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    }
     },
     {
         sequelize: mySqlConnection,

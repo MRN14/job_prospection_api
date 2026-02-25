@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import validator from 'validator';
-
+import { sendEmail } from "../services/emailService.js";
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -79,7 +79,7 @@ export const register = async (req, res) => {
         //     return res.status(400).json({ message: 'Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number and one symbol' })
         // }
         const existingUser = await User.findOne({ where: { email } });
-        if(existingUser) {
+        if (existingUser) {
             return res.status(400).json({ message: 'User already exist' });
         }
         // Hash password
@@ -93,13 +93,17 @@ export const register = async (req, res) => {
             return res.status(400).json({ message: 'User not found' });
         }
 
+        await sendEmail(
+            user.email,
+            "Hello from tests",
+            "Please comfirm your email adress"
+        );
         return res.status(201).json({ message: `User created successfully!` });
     } catch (error) {
         console.error(error);
-        
+
         // Server error
-        // return res.status(500).json({ message: 'Internal server error' });
-        throw error;
+        return res.status(500).json({ message: 'Internal server error' });
     }
 }
 
