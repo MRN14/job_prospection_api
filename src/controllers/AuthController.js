@@ -98,8 +98,7 @@ export const register = async (req, res) => {
         console.error(error);
         
         // Server error
-        // return res.status(500).json({ message: 'Internal server error' });
-        throw error;
+        return res.status(500).json({ message: 'Internal server error' });
     }
 }
 
