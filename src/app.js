@@ -1,8 +1,10 @@
 // Create express app
+import { initMailer } from "./config/mailer.js";
+
 import express from 'express';
 import cors from 'cors';
 const app = express();
-
+await initMailer();
 // Middleware to parse JSON requests
 app.use(express.json());
 // Middleware to enable CORS
@@ -31,5 +33,7 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+
 
 export default app;
