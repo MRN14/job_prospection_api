@@ -2,7 +2,7 @@
 
 > **base url:** localhost:3000  
 > **protocol:** http  
-> <http://localohost:3000>
+> <http://localhost:3000>
 
 1. [Auth doc](./api/auth.md)
 2. [Sheet doc](./api/sheet.md)
