@@ -18,6 +18,9 @@ jobs:
       - name: Build images
         run: docker compose build
 
+      - name: Install dependencies
+        run: docker compose run --rm web npm install
+
       - name: Run tests
         run: docker compose run --rm web npm run test
   deploy:
