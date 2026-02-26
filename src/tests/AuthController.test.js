@@ -230,6 +230,7 @@ describe('GET /auth/logout', () => {
 afterAll(async () => {
   try {
     await sequelize.sync({ force: true }); // clean tables after tests
+    await sequelize.close();
     console.log('Tables are ready for testing.');
   } catch (error) {
     console.error('Error while syncing tables:', error);

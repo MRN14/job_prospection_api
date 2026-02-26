@@ -268,3 +268,7 @@ describe('DELETE /job/:name/:id', () => {
      });
     
 });
+
+afterAll(async () => {
+  await sequelize.close();
+});
