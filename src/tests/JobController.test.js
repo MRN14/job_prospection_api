@@ -42,7 +42,7 @@ describe('POST /job/:name', () => {
             });
 
         expect(res.status).toBe(400);
-        expect(res.body).toHaveProperty('message', "missing job name");
+        expect(res.body).toHaveProperty('message', "job is required");
     });
     test('return 400 if sheet not found with correct token', async () => {
         const secret = process.env.JWT_SECRET;
@@ -267,4 +267,8 @@ describe('DELETE /job/:name/:id', () => {
             expect(res.body).toHaveProperty('message', "job succesfully deleted");
      });
     
+});
+
+afterAll(async () => {
+  await sequelize.close();
 });
